@@ -1,0 +1,75 @@
+cabal-version:   3.4
+name:            cardano-node-clients
+version:         0.1.0.0
+synopsis:        Haskell clients for Cardano node mini-protocols
+description:
+  Channel-driven Haskell clients for Cardano node Ouroboros
+  mini-protocols. Provides N2C (Node-to-Client) LocalStateQuery
+  and LocalTxSubmission clients, with high-level Provider and
+  Submitter interfaces and transaction balancing utilities.
+
+license:         Apache-2.0
+license-file:    LICENSE
+author:          Paolo Veronelli
+maintainer:      paolo.veronelli@gmail.com
+category:        Cardano
+build-type:      Simple
+extra-doc-files: CHANGELOG.md
+
+common warnings
+  ghc-options:
+    -Wall -Werror -Wunused-imports -Wunused-packages
+    -Wmissing-export-lists -Wname-shadowing -Wredundant-constraints
+
+  default-extensions:
+    DataKinds
+    DerivingStrategies
+    DuplicateRecordFields
+    FlexibleContexts
+    GADTs
+    ImportQualifiedPost
+    OverloadedStrings
+    PatternSynonyms
+    ScopedTypeVariables
+    StrictData
+    TypeApplications
+    TypeOperators
+    ViewPatterns
+
+library
+  import:           warnings
+  hs-source-dirs:   lib
+  default-language: GHC2021
+  exposed-modules:
+    Cardano.Node.Client.Balance
+    Cardano.Node.Client.N2C.Codecs
+    Cardano.Node.Client.N2C.Connection
+    Cardano.Node.Client.N2C.LocalStateQuery
+    Cardano.Node.Client.N2C.LocalTxSubmission
+    Cardano.Node.Client.N2C.Provider
+    Cardano.Node.Client.N2C.Submitter
+    Cardano.Node.Client.N2C.Types
+    Cardano.Node.Client.Provider
+    Cardano.Node.Client.Submitter
+    Cardano.Node.Client.Types
+
+  build-depends:
+    , base
+    , bytestring
+    , cardano-ledger-api
+    , cardano-ledger-byron
+    , cardano-ledger-conway
+    , cardano-ledger-core
+    , cardano-strict-containers
+    , containers
+    , contra-tracer
+    , microlens
+    , network-mux
+    , ouroboros-consensus
+    , ouroboros-consensus-cardano
+    , ouroboros-consensus-protocol
+    , ouroboros-network
+    , ouroboros-network-api
+    , ouroboros-network-framework
+    , ouroboros-network-protocols
+    , stm
