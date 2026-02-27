@@ -26,6 +26,5 @@ jobs:
       - uses: paolino/dev-assets/setup-nix@v0.0.1
         with:
           cachix-auth-token: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - uses: paolino/dev-assets/mkdocs@v0.0.1
       - name: Deploy docs
-        run: mkdocs gh-deploy --force
+        run: nix develop --quiet -c mkdocs gh-deploy --force
