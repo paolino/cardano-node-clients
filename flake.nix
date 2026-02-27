@@ -21,10 +21,11 @@
         "github:intersectmbo/cardano-haskell-packages/a46182e9c039737bf43cdb5286df49bbe0edf6fb";
       flake = false;
     };
+    mkdocs.url = "github:paolino/dev-assets?dir=mkdocs";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-parts, haskellNix, iohkNix
-    , CHaP, ... }:
+    , CHaP, mkdocs, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       perSystem = { system, ... }:
@@ -59,7 +60,11 @@
                 fourmolu = indexTool;
                 hlint = indexTool;
               };
-              buildInputs = [ pkgs.just ];
+              buildInputs = [
+                pkgs.just
+                pkgs.mkdocs
+                mkdocs.packages.${system}.from-nixpkgs
+              ];
             };
             modules = [ fix-libs ];
             inputMap = {

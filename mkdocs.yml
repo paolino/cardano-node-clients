@@ -1,0 +1,41 @@
+site_name: cardano-node-clients
+site_url: https://paolino.github.io/cardano-node-clients/
+repo_url: https://github.com/paolino/cardano-node-clients
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+  features:
+    - navigation.indexes
+    - toc.integrate
+    - content.code.copy
+    - navigation.path
+
+plugins:
+  - search
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - Modules:
+      - Provider: modules/provider.md
+      - Submitter: modules/submitter.md
+      - Balance: modules/balance.md
+      - N2C: modules/n2c.md
