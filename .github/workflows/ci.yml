@@ -17,3 +17,15 @@ jobs:
           cachix-auth-token: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Build
         run: nix develop --quiet -c just ci
+  docs:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: paolino/dev-assets/setup-nix@v0.0.1
+        with:
+          cachix-auth-token: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - uses: paolino/dev-assets/mkdocs@v0.0.1
+      - name: Deploy docs
+        run: mkdocs gh-deploy --force
