@@ -56,10 +56,12 @@ library
   build-depends:
     , base
     , bytestring
+    , cardano-ledger-alonzo
     , cardano-ledger-api
     , cardano-ledger-byron
     , cardano-ledger-conway
     , cardano-ledger-core
+    , cardano-slotting
     , cardano-strict-containers
     , containers
     , contra-tracer
@@ -73,3 +75,5 @@ library
     , ouroboros-network-framework
     , ouroboros-network-protocols
     , stm
+    , text
+    , transformers
