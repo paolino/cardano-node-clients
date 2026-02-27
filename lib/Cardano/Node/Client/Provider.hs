@@ -10,13 +10,36 @@ constructors (e.g. 'Cardano.Node.Client.N2C.Provider.mkN2CProvider').
 module Cardano.Node.Client.Provider (
     -- * Provider interface
     Provider (..),
+
+    -- * Result types
+    EvaluateTxResult,
 ) where
 
+import Data.Map.Strict (Map)
+
 import Cardano.Ledger.Address (Addr)
+import Cardano.Ledger.Alonzo.Plutus.Evaluate (
+    TransactionScriptFailure,
+ )
+import Cardano.Ledger.Alonzo.Scripts (
+    AsIx,
+    PlutusPurpose,
+ )
+import Cardano.Ledger.Api.Tx (Tx)
 import Cardano.Ledger.Api.Tx.Out (TxOut)
 import Cardano.Ledger.Conway (ConwayEra)
 import Cardano.Ledger.Core (PParams)
+import Cardano.Ledger.Plutus (ExUnits)
 import Cardano.Ledger.TxIn (TxIn)
+
+-- | Per-script evaluation result.
+type EvaluateTxResult era =
+    Map
+        (PlutusPurpose AsIx era)
+        ( Either
+            (TransactionScriptFailure era)
+            ExUnits
+        )
 
 {- | Interface for querying the blockchain.
 All era-specific types are fixed to 'ConwayEra'.
@@ -29,4 +52,8 @@ data Provider m = Provider
     , queryProtocolParams ::
         m (PParams ConwayEra)
     -- ^ Fetch current protocol parameters
+    , evaluateTx ::
+        Tx ConwayEra ->
+        m (EvaluateTxResult ConwayEra)
+    -- ^ Evaluate script execution units
     }
