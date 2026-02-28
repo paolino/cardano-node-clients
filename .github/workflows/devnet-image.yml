@@ -1,0 +1,46 @@
+name: Devnet Image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "devnet/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/devnet
+
+jobs:
+  build-and-push:
+    name: Build and push devnet image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract node version from Dockerfile
+        id: meta
+        run: |
+          version=$(grep '^ARG NODE_VERSION=' devnet/Dockerfile | cut -d= -f2)
+          echo "node_version=${version}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: devnet
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.node_version }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
