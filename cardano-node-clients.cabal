@@ -80,6 +80,7 @@ library
 
 library devnet
   import:           warnings
+  visibility:       public
   hs-source-dirs:   e2e-test
   default-language: GHC2021
   exposed-modules:
