@@ -1,0 +1,20 @@
+# Standalone devnet cardano-node for testing.
+# Usage: docker compose up
+# Socket at /data/node.sock, N2N on port 3001.
+services:
+  cardano-node:
+    build:
+      context: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - node-data:/data
+    healthcheck:
+      test: ["CMD", "test", "-S", "/data/node.sock"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 10s
+
+volumes:
+  node-data:
