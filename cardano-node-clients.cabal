@@ -77,3 +77,44 @@ library
     , stm
     , text
     , transformers
+
+library devnet
+  import:           warnings
+  hs-source-dirs:   e2e-test
+  default-language: GHC2021
+  exposed-modules:
+    Cardano.Node.Client.E2E.Devnet
+    Cardano.Node.Client.E2E.Setup
+
+  build-depends:
+    , async
+    , base
+    , bytestring
+    , cardano-crypto-class
+    , cardano-ledger-api
+    , cardano-ledger-conway
+    , cardano-ledger-core
+    , cardano-node-clients
+    , containers
+    , directory
+    , filepath
+    , microlens
+    , ouroboros-network-api
+    , process
+    , time
+    , unix
+
+test-suite e2e-tests
+  import:           warnings
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test
+  main-is:          main.hs
+  default-language: GHC2021
+  other-modules:    Cardano.Node.Client.E2E.ProviderSpec
+  build-depends:
+    , base
+    , cardano-ledger-api
+    , cardano-node-clients
+    , cardano-node-clients:devnet
+    , hspec
+    , microlens

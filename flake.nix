@@ -22,10 +22,13 @@
       flake = false;
     };
     mkdocs.url = "github:paolino/dev-assets?dir=mkdocs";
+    cardano-node = {
+      url = "github:IntersectMBO/cardano-node/10.5.4";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, flake-parts, haskellNix, iohkNix
-    , CHaP, mkdocs, ... }:
+    , CHaP, mkdocs, cardano-node, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "x86_64-linux" "aarch64-darwin" ];
       perSystem = { system, ... }:
@@ -64,6 +67,7 @@
                 pkgs.just
                 pkgs.mkdocs
                 mkdocs.packages.${system}.from-nixpkgs
+                cardano-node.packages.${system}.cardano-node
               ];
             };
             modules = [ fix-libs ];
